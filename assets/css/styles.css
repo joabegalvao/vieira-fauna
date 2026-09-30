@@ -47,22 +47,25 @@
 }
 
 :root {
-  /* Cores tiradas das fotos: a água dos aquários e o pelo dos cães */
-  --deep: #0b3b3a;        /* fundo dos aquários: seções escuras */
-  --teal: #12615c;        /* cor da marca: botões, títulos de apoio */
-  --teal-700: #0d4c48;    /* hover dos botões */
-  --aqua: #a9e0da;        /* água clara: destaques sobre o escuro */
-  --aqua-100: #dcefec;    /* faixa clara de água */
-  --amber: #e2a34a;       /* pelo do golden e do acará: cor de ação */
-  --amber-300: #eebb6b;
-  --amber-800: #8a5a10;   /* âmbar escurecido: texto sobre fundo claro */
+  /* Cores extraídas do logo */
+  --blue: #004fd8;        /* "Vieira": botões, destaques dos títulos, rótulos */
+  --pink: #fc2c57;        /* "PET SHOP" e listras: só nos traços dos rótulos */
+  --gold: #c79601;        /* "Fauna Shopping": botões da seção escura e números dos passos */
+
+  /* Variações e neutros de apoio */
+  --deep: #08265c;        /* azul do logo escurecido: água funda, seções escuras */
+  --blue-700: #003db0;    /* hover dos botões */
+  --blue-100: #e4ecff;    /* azul bem claro: fundo dos ícones */
+  --sky: #cfe0ff;         /* azul claro: destaques sobre o escuro */
+  --gold-300: #e0b22a;
+  --gold-800: #7a5b00;    /* dourado escurecido: numeração sobre fundo claro */
   --sand: #f5efe4;        /* papel do guia: fundo claro */
   --white: #fffdf9;
-  --line: #e1d9ca;
-  --line-dark: #1f5553;
-  --ink: #172321;
-  --ink-soft: #4f5d5a;
-  --mist: #b7d3cf;        /* texto secundário sobre o escuro */
+  --line: #e1dccf;
+  --line-dark: #1b3a7a;
+  --ink: #171f2e;
+  --ink-soft: #4e586b;
+  --mist: #b9c8e6;        /* texto secundário sobre o escuro */
   --whatsapp: #25d366;    /* verde oficial do WhatsApp */
 
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
@@ -73,7 +76,7 @@
   --header-height: 72px;
   --radius: 6px;
   --radius-lg: 14px;
-  --focus: var(--amber);
+  --focus: var(--gold);
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
@@ -162,11 +165,11 @@ button {
 .section--white :focus-visible,
 .section--sand :focus-visible,
 .hero :focus-visible {
-  outline-color: var(--teal);
+  outline-color: var(--blue);
 }
 
 ::selection {
-  background: var(--amber);
+  background: var(--gold);
   color: var(--deep);
 }
 
@@ -215,7 +218,7 @@ button {
   left: 8px;
   z-index: 200;
   padding: 12px 18px;
-  background: var(--amber);
+  background: var(--gold);
   color: var(--deep);
   font-weight: 700;
   border-radius: var(--radius);
@@ -231,25 +234,30 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: var(--teal);
+  color: var(--blue);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
+/* duas listras, como as do logo */
 .eyebrow::before {
   content: "";
   flex: none;
   width: 28px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--amber);
+  height: 7px;
+  border-top: 2px solid var(--pink);
+  border-bottom: 2px solid var(--pink);
 }
 
 .section--deep .eyebrow,
 .closing .eyebrow {
-  color: var(--aqua);
+  color: var(--sky);
+}
+
+.section--deep .eyebrow::before {
+  border-color: var(--gold);
 }
 
 @media (max-width: 479px) {
@@ -284,21 +292,21 @@ button {
 }
 
 .btn--primary {
-  background: var(--teal);
+  background: var(--blue);
   color: var(--white);
 }
 
 .btn--primary:hover {
-  background: var(--teal-700);
+  background: var(--blue-700);
 }
 
-.btn--amber {
-  background: var(--amber);
+.btn--gold {
+  background: var(--gold);
   color: var(--deep);
 }
 
-.btn--amber:hover {
-  background: var(--amber-300);
+.btn--gold:hover {
+  background: var(--gold-300);
 }
 
 .btn--ghost {
@@ -308,80 +316,17 @@ button {
 }
 
 .btn--ghost:hover {
-  border-color: var(--teal);
-  color: var(--teal);
+  border-color: var(--blue);
+  color: var(--blue);
 }
 
 .btn--outline {
-  border-color: rgba(169, 224, 218, 0.45);
-  color: var(--aqua);
+  border-color: rgba(207, 224, 255, 0.45);
+  color: var(--sky);
 }
 
 .btn--outline:hover {
-  border-color: var(--aqua);
-}
-
-/* Marca: símbolo desenhado por código e nome em texto */
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.brand__mark {
-  flex: none;
-  width: 44px;
-  height: 44px;
-}
-
-.brand__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-}
-
-.brand__name {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--deep);
-}
-
-.brand__sub {
-  margin-top: 4px;
-  white-space: nowrap;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--teal);
-}
-
-@media (max-width: 359px) {
-  .brand__name {
-    font-size: 1.25rem;
-  }
-
-  .brand__sub {
-    font-size: 0.5625rem;
-    letter-spacing: 0.16em;
-  }
-}
-
-.brand--footer .brand__mark {
-  width: 52px;
-  height: 52px;
-}
-
-.brand--footer .brand__name {
-  color: var(--white);
-}
-
-.brand--footer .brand__sub {
-  color: var(--aqua);
+  border-color: var(--sky);
 }
 
 /* 4. Cabeçalho
@@ -401,6 +346,29 @@ button {
   justify-content: space-between;
   gap: 24px;
   min-height: var(--header-height);
+}
+
+.header__logo {
+  flex: none;
+  display: block;
+}
+
+/* o logo é largo: a altura manda, e cede no celular estreito */
+.header__logo img {
+  width: auto;
+  height: 54px;
+}
+
+@media (max-width: 359px) {
+  .header__logo img {
+    height: 44px;
+  }
+}
+
+@media (min-width: 980px) {
+  .header__logo img {
+    height: 58px;
+  }
 }
 
 .header__toggle {
@@ -446,31 +414,31 @@ button {
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: 12px 28px;
+  gap: 12px 20px;
   padding-block: 12px;
 }
 
 .nav__list {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 24px;
+  gap: 4px 20px;
 }
 
 .nav__list a {
   display: inline-block;
   padding-block: 10px;
   color: var(--ink-soft);
-  font-size: 0.9375rem;
+  font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
   transition: color 0.2s var(--ease);
 }
 
 .nav__list a:hover {
-  color: var(--teal);
+  color: var(--blue);
 }
 
-@media (max-width: 1139px) {
+@media (max-width: 1199px) {
   .js .header__toggle {
     display: inline-flex;
   }
@@ -550,7 +518,7 @@ button {
   display: block;
   font-style: italic;
   font-weight: 400;
-  color: var(--teal);
+  color: var(--blue);
 }
 
 .hero__lead {
@@ -599,11 +567,11 @@ button {
   margin-right: 6px;
   font-family: var(--font-display);
   font-style: italic;
-  color: var(--amber-800);
+  color: var(--gold-800);
 }
 
 .section--deep .plate__num {
-  color: var(--amber);
+  color: var(--gold);
 }
 
 .section--deep .photo figcaption {
@@ -646,15 +614,15 @@ button {
 
 .facts__item {
   display: flex;
-  align-items: baseline;
-  gap: 14px;
+  flex-direction: column;
+  gap: 6px;
   padding-block: 18px;
   border-bottom: 1px solid var(--line);
 }
 
 .facts__value {
   white-space: nowrap;
-  color: var(--teal);
+  color: var(--blue);
   font-family: var(--font-display);
   font-size: 2.25rem;
   font-weight: 600;
@@ -679,7 +647,6 @@ button {
   }
 
   .facts__item {
-    flex-direction: column;
     gap: 8px;
     padding: 28px 24px 32px 0;
     border-bottom: 0;
@@ -763,7 +730,7 @@ button {
 }
 
 .section--deep .section__title em {
-  color: var(--aqua);
+  color: var(--sky);
 }
 
 .section__lead {
@@ -843,7 +810,7 @@ button {
   font-family: var(--font-display);
   font-style: italic;
   font-size: 1rem;
-  color: var(--amber-800);
+  color: var(--gold-800);
 }
 
 .index__icon {
@@ -851,8 +818,8 @@ button {
   height: 44px;
   padding: 8px;
   border-radius: 50%;
-  background: var(--aqua-100);
-  color: var(--teal);
+  background: var(--blue-100);
+  color: var(--blue);
 }
 
 .index__title {
@@ -876,11 +843,11 @@ button {
   display: inline-flex;
   align-items: center;
   min-height: 36px;
-  color: var(--teal);
+  color: var(--blue);
   font-size: 0.9375rem;
   font-weight: 700;
   text-decoration: underline;
-  text-decoration-color: var(--amber);
+  text-decoration-color: var(--gold);
   text-decoration-thickness: 2px;
   text-underline-offset: 5px;
 }
@@ -908,8 +875,8 @@ button {
 
 .note {
   padding: 22px 24px;
-  border-left: 3px solid var(--amber);
-  background: rgba(169, 224, 218, 0.08);
+  border-left: 3px solid var(--gold);
+  background: rgba(207, 224, 255, 0.08);
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
@@ -1026,7 +993,7 @@ button {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--amber);
+  background: var(--gold);
   color: var(--deep);
   font-family: var(--font-display);
   font-size: 1.25rem;
@@ -1214,13 +1181,13 @@ button {
 }
 
 .contacts a:hover {
-  color: var(--teal);
+  color: var(--blue);
 }
 
 .contacts .icon {
   width: 22px;
   height: 22px;
-  color: var(--teal);
+  color: var(--blue);
 }
 
 .contacts__label {
@@ -1307,7 +1274,7 @@ button {
 }
 
 .closing__title em {
-  color: var(--aqua);
+  color: var(--sky);
 }
 
 .closing__text {
@@ -1337,10 +1304,19 @@ button {
 
 .footer {
   padding-top: 64px;
-  background: var(--deep);
-  border-top: 1px solid var(--line-dark);
-  color: var(--mist);
+  background: var(--white);
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
   font-size: 0.9375rem;
+}
+
+.footer__logo {
+  display: inline-block;
+}
+
+.footer__logo img {
+  width: auto;
+  height: 72px;
 }
 
 .footer__grid {
@@ -1355,7 +1331,7 @@ button {
 
 .footer__heading {
   margin-bottom: 12px;
-  color: var(--aqua);
+  color: var(--blue);
   font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 700;
@@ -1368,19 +1344,18 @@ button {
   align-items: center;
   gap: 10px;
   min-height: 36px;
-  color: var(--white);
+  color: var(--ink);
   font-weight: 600;
   text-decoration: none;
   transition: color 0.2s var(--ease);
 }
 
 .footer a:hover {
-  color: var(--amber-300);
+  color: var(--blue);
 }
 
-.footer a.brand {
+.footer a.footer__logo {
   min-height: 0;
-  gap: 12px;
 }
 
 .footer__bottom {
@@ -1392,7 +1367,7 @@ button {
   margin-top: 48px;
   /* a folga na base deixa o botão de WhatsApp livre do texto */
   padding-block: 20px 88px;
-  border-top: 1px solid var(--line-dark);
+  border-top: 1px solid var(--line);
   font-size: 0.8125rem;
 }
 
@@ -1434,7 +1409,7 @@ button {
 }
 
 .whats-float:focus-visible {
-  outline-color: var(--deep);
+  outline-color: var(--blue);
   border-radius: 50%;
   box-shadow: 0 0 0 6px var(--white);
 }

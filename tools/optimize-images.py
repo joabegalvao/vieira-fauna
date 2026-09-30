@@ -8,10 +8,9 @@ Requer Pillow (pip install pillow) e a pasta materiais-de-origem/. Os
 originais nunca são alterados. Para trocar uma foto, substitua o arquivo de
 origem ou edite a lista PHOTOS e rode o script novamente.
 
-A marca (tools/marca/marca.svg) é desenhada por código. Antes de rodar este
-script, gere o PNG da marca e a imagem de compartilhamento:
-    node tools/marca/render-marca.js
-Sem o PNG da marca, este script mantém os ícones que já estão em assets/img.
+A imagem de compartilhamento (1200x630) é montada pelo Chromium, com as
+fontes do site, por outro script:
+    node tools/render-compartilhamento.js
 """
 from pathlib import Path
 
@@ -21,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SOURCES = ROOT / "materiais-de-origem"
 SRC = SOURCES / "fotos"
 AVATAR_SRC = SOURCES / "avaliacoes"
-MARK_PNG = ROOT / "tools" / "marca" / "marca-512.png"
+LOGO_SRC = SOURCES / "logo" / "Logo Vieira.png"
 OUT = ROOT / "assets" / "img"
 
 
@@ -83,30 +82,43 @@ def build_avatars() -> None:
         print(f"{name}: {im.width}x{im.height}")
 
 
-def build_icons() -> None:
-    """Favicon e ícones de atalho a partir da marca desenhada por código."""
-    if not MARK_PNG.exists():
-        print("marca-512.png não encontrado: ícones mantidos como estão")
-        return
-    mark = Image.open(MARK_PNG).convert("RGBA")
+def build_logo() -> None:
+    """O logo veio em PNG de 2172x724 px, com fundo transparente. O script só
+    recorta a margem vazia e gera as larguras usadas na página."""
+    logo = Image.open(LOGO_SRC).convert("RGBA")
+    box = logo.getchannel("A").point(lambda v: 255 if v > 20 else 0).getbbox()
+    margin = 8
+    mark = logo.crop((
+        max(0, box[0] - margin), max(0, box[1] - margin),
+        min(logo.width, box[2] + margin), min(logo.height, box[3] + margin),
+    ))
+    for width in (560, 280):
+        out = resize_to_width(mark, width)
+        out.save(OUT / f"logo-vieira-fauna-shopping-{width}.png", optimize=True)
+        out.save(OUT / f"logo-vieira-fauna-shopping-{width}.webp", "WEBP", quality=92, method=6)
+    print(f"logo-vieira-fauna-shopping: {mark.width}x{mark.height} (salvo em 560 e 280)")
+
+    # Ícones: o logo inteiro fica ilegível em 32 px, então os ícones usam só o
+    # "V" azul, recortado do próprio logo, sobre o fundo claro da página.
+    v = logo.crop((90, 100, 585, 530))
+    # o "i" encosta na haste direita do V: apaga o que fica à direita, abaixo do topo do V
+    alpha = v.getchannel("A")
+    alpha.paste(0, (500 - 90, 245 - 100, v.width, v.height))
+    v.putalpha(alpha)
+    v = v.crop(alpha.point(lambda a: 255 if a > 20 else 0).getbbox())
     for name, size in (("favicon-32", 32), ("apple-touch-icon", 180), ("icon-192", 192)):
-        tile = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
-        fitted = mark.resize((472, 472), Image.LANCZOS)
-        tile.alpha_composite(fitted, (20, 20))
-        if name == "apple-touch-icon":
-            # o iOS não aceita transparência: fundo na cor da marca
-            solid = Image.new("RGB", (512, 512), (18, 97, 92))
-            solid.paste(tile, mask=tile.getchannel("A"))
-            solid.resize((size, size), Image.LANCZOS).save(OUT / f"{name}.png", optimize=True)
-        else:
-            tile.resize((size, size), Image.LANCZOS).save(OUT / f"{name}.png", optimize=True)
-    print("ícones gerados a partir da marca")
+        tile = Image.new("RGBA", (512, 512), (245, 239, 228, 255))
+        scale = 400 / max(v.width, v.height)
+        fitted = v.resize((round(v.width * scale), round(v.height * scale)), Image.LANCZOS)
+        tile.alpha_composite(fitted, ((512 - fitted.width) // 2, (512 - fitted.height) // 2))
+        tile.convert("RGB").resize((size, size), Image.LANCZOS).save(OUT / f"{name}.png", optimize=True)
+    print("ícones gerados a partir do V do logo")
 
 
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     build_photos()
     build_avatars()
-    build_icons()
+    build_logo()
     total = sum(f.stat().st_size for f in OUT.iterdir())
     print(f"{len(list(OUT.iterdir()))} arquivos, {total / 1024:.0f} KB no total")

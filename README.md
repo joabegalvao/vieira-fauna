@@ -24,12 +24,10 @@ estão prontas em `assets/img`.
 
 ```
 materiais-de-origem/
+  logo/          Logo Vieira.png (2172 x 724, fundo transparente)
   fotos/         oito capturas de tela do Instagram da loja
   avaliacoes/    fotos de perfil de quem avaliou
 ```
-
-Não foi recebido logo. A marca da página é provisória, desenhada por código
-(veja "Marca provisória").
 
 Só é preciso ter os originais para rodar `tools/optimize-images.py`, ou seja,
 para trocar ou reprocessar uma foto.
@@ -91,15 +89,16 @@ A loja se chama "Fauna Shopping" e as fotos mostram peixe, ave, tartaruga e
 cães. A página foi montada como um guia de campo de naturalista: cada foto tem
 uma legenda numerada ("Fig. 01", "Fig. 02"...), os serviços formam um índice
 numerado com ícones de traço, e a página se divide em duas partes, "Na água"
-(seção escura, cor de aquário, sobre peixes e aquários) e "Em terra" (seção
-clara, sobre banho e tosa), separadas por uma onda. Sem gradientes, sem
-efeitos de vidro, sem emojis como ícones.
+(seção escura, azul-marinho, sobre peixes e aquários) e "Em terra" (seção
+clara, sobre banho e tosa), separadas por uma onda. As duas listras dos
+rótulos de seção citam as listras do logo. Sem gradientes, sem efeitos de
+vidro, sem emojis como ícones.
 
 ## Seções da página
 
 | Ordem | Seção | Âncora | Conteúdo |
 | --- | --- | --- | --- |
-| 1 | Cabeçalho | | Marca, navegação e CTA de WhatsApp. Fixo no topo |
+| 1 | Cabeçalho | | Logo, navegação e CTA de WhatsApp. Fixo no topo |
 | 2 | Hero | `#inicio` | "Do aquário ao quintal, tudo para quem você cuida", dois botões, prancha com duas fotos e três fatos (30+ anos, sob medida, 1 endereço) |
 | 3 | Serviços | `#servicos` | Índice numerado com os seis itens do briefing e ícones desenhados por código |
 | 4 | Na água | `#peixes` | Peixes e aquários sob medida, duas avaliações sobre peixes, três fotos |
@@ -121,9 +120,8 @@ assets/css/styles.css            estilos (tokens de cor e tipografia no topo)
 assets/js/main.js                menu e revelação na rolagem
 assets/img/                      imagens otimizadas (geradas pelos scripts)
 assets/fonts/                    Fraunces e Manrope (arquivos locais)
-tools/optimize-images.py         gera assets/img a partir dos originais
-tools/marca/marca.svg            marca provisória, desenhada por código
-tools/marca/render-marca.js      gera o PNG da marca e a imagem de compartilhamento
+tools/optimize-images.py         gera assets/img a partir dos originais (fotos, logo, ícones)
+tools/render-compartilhamento.js monta a imagem de compartilhamento pelo Chromium
 materiais-de-origem/             arquivos do cliente (só na pasta local, fora do git)
 ```
 
@@ -155,30 +153,20 @@ Observações:
 - A foto de perfil de Larissa não mostra uma pessoa (é uma flor). Ficou como
   veio.
 
-### Marca provisória
+### Logo
 
-Não foi recebido logo. A página usa uma marca desenhada por código: uma pata
-cujo coxim é um peixe, em verde-água e âmbar, com o nome "Vieira" em Fraunces
-e "Fauna Shopping" em Manrope. O símbolo está em `tools/marca/marca.svg` e
-também inline no `index.html` (cabeçalho e rodapé); o nome é texto.
+O logo chegou depois do início do projeto, em PNG de 2172 x 724 px com fundo
+transparente e bordas limpas: "Vieira" em azul, "PET SHOP" e duas listras em
+rosa, "Fauna Shopping" em dourado. O script só recorta a margem vazia e gera
+as larguras de 560 e 280 px. Como o logo é largo, no cabeçalho ele tem 58 px
+de altura no desktop, 54 px no celular e 44 px em telas de até 359 px.
 
-O painel de fotos da loja, visível na foto do spitz, mostra a identidade que a
-loja usa hoje: nome em letra cursiva branca sobre quadros azul-claro e rosa,
-com patinhas. A marca provisória não copia esse painel.
+Os ícones do site (favicon e ícone de atalho) usam só o "V" azul, recortado
+do próprio logo sobre o fundo claro da página, porque o logo inteiro fica
+ilegível em 32 px.
 
-**Quando o logo oficial chegar:**
-
-1. Salve o arquivo em `materiais-de-origem/logo/`.
-2. Em `tools/optimize-images.py`, acrescente uma função que gere as versões do
-   logo em `assets/img` (o script dos outros projetos desta série serve de
-   modelo) e troque `MARK_PNG` pelo logo para os ícones.
-3. No `index.html`, substitua os dois blocos `<a class="brand">` por uma tag
-   `<img>` com o logo, ou mantenha o texto e troque só o `<svg
-   class="brand__mark">`.
-4. Reveja as cores em `assets/css/styles.css`, bloco `:root`, para combinar
-   com o logo.
-5. Rode `node tools/marca/render-marca.js` de novo, ou ajuste o cartão de
-   compartilhamento nesse script para usar o logo.
+Antes do logo, a página teve uma marca provisória desenhada por código (uma
+pata cujo coxim era um peixe). Ela foi removida.
 
 ## Como atualizar o conteúdo
 
@@ -207,13 +195,12 @@ Mensagens de WhatsApp, conforme o ponto da página:
 Para gerar as imagens (requer Pillow e a pasta `materiais-de-origem/`):
 
 ```bash
-node tools/marca/render-marca.js   # marca em PNG e imagem de compartilhamento (requer Node e Playwright)
-python3 tools/optimize-images.py   # fotos, avatares e ícones
+python3 tools/optimize-images.py        # fotos, avatares, logo e ícones
+node tools/render-compartilhamento.js   # imagem de compartilhamento (requer Node e Playwright)
 ```
 
 Se o Playwright não estiver instalado no projeto, informe os caminhos pelas
-variáveis `PLAYWRIGHT_MODULE` e `CHROMIUM_PATH`. Sem o PNG da marca, o
-`optimize-images.py` mantém os ícones que já estão em `assets/img`.
+variáveis `PLAYWRIGHT_MODULE` e `CHROMIUM_PATH`.
 
 Se a proporção de uma foto mudar, atualize `width` e `height` da tag `<img>`
 correspondente no `index.html`, para não haver salto de layout.
@@ -233,20 +220,26 @@ os visitantes recebam a versão nova.
 
 ## Identidade visual
 
-Sem logo, a paleta veio das fotos: a água dos aquários e o pelo dos cães.
+O logo tem três cores vivas, uma por palavra.
 
 | Token | Cor | Origem |
 | --- | --- | --- |
-| `--deep` | `#0B3B3A` | fundo dos aquários: seção "Na água", chamada final e rodapé |
-| `--teal` | `#12615C` | cor da marca provisória: botões, destaques dos títulos, rótulos |
-| `--teal-700` | `#0D4C48` | hover dos botões |
-| `--aqua`, `--aqua-100` | `#A9E0DA`, `#DCEFEC` | água clara: destaques sobre o escuro e fundo dos ícones |
-| `--amber` | `#E2A34A` | pelo do golden e do acará: botões da seção escura, números dos passos, traço dos rótulos |
-| `--amber-800` | `#8A5A10` | âmbar escurecido: numeração "Fig." e do índice sobre fundo claro |
+| `--blue` | `#004FD8` | "Vieira": botões, destaques dos títulos, rótulos, ícones |
+| `--pink` | `#FC2C57` | "PET SHOP" e as listras: só nas duas listras dos rótulos de seção |
+| `--gold` | `#C79601` | "Fauna Shopping": botão da seção escura, números dos passos, listras dos rótulos sobre o escuro |
+| `--deep` | `#08265C` | azul do logo escurecido: seção "Na água" e chamada final |
+| `--blue-700` | `#003DB0` | hover dos botões |
+| `--blue-100`, `--sky` | `#E4ECFF`, `#CFE0FF` | azul clareado: fundo dos ícones e destaques sobre o escuro |
+| `--gold-800` | `#7A5B00` | dourado escurecido: numeração "Fig." e do índice sobre fundo claro |
 | `--sand`, `--white` | `#F5EFE4`, `#FFFDF9` | papel do guia: fundos claros, alternados |
-| `--ink`, `--ink-soft` | `#172321`, `#4F5D5A` | textos sobre fundo claro |
-| `--mist` | `#B7D3CF` | texto secundário sobre o escuro |
+| `--ink`, `--ink-soft` | `#171F2E`, `#4E586B` | textos sobre fundo claro |
+| `--mist` | `#B9C8E6` | texto secundário sobre o escuro |
 | `--whatsapp` | `#25D366` | verde oficial do WhatsApp, usado só no botão flutuante |
+
+Como as cores foram usadas: o azul é a cor de ação e de destaque; o dourado
+aparece sobre o azul-marinho, onde o azul não teria contraste; o rosa, que
+não tem contraste para texto sobre fundo claro, fica só nas listras
+decorativas. O rodapé é claro, para o logo ser lido nas cores originais.
 
 Tipografia: Fraunces (títulos, com o destaque em itálico) e Manrope (textos).
 
@@ -284,7 +277,7 @@ Tipografia: Fraunces (títulos, com o destaque em itálico) e Manrope (textos).
 Executados em 30/09/2026, em Chromium automatizado (Playwright).
 
 - Revisão visual das capturas de tela: página inteira em 390 e 1440 px e
-  primeira tela em 320, 768 e 1024 px.
+  primeira tela em 320, 768, 1024, 1200 e 1920 px.
 - Sem rolagem horizontal e com o título do hero em quatro linhas nos tamanhos
   320, 360, 390, 480, 600, 768, 900, 1024, 1200, 1440 e 1920 px.
 - Sem erros de console e sem imagens quebradas.
@@ -312,20 +305,21 @@ verificado se o número responde no WhatsApp.
 | Ajuste | Arquivos |
 | --- | --- |
 | Versão inicial da página, com marca provisória | todos |
+| Logo recebido: paleta refeita a partir dele, logo no cabeçalho e no rodapé, ícones a partir do "V" | `index.html`, `styles.css`, `tools/`, `assets/img` |
 
 ## Créditos e licenças
 
-- Fotos, avaliações e fotos de perfil: fornecidos pelo cliente.
-- Marca provisória, ícones dos serviços e demais ícones: criados para este
-  projeto. Ícone do WhatsApp: Simple Icons (CC0).
+- Logo, fotos, avaliações e fotos de perfil: fornecidos pelo cliente.
+- Ícones dos serviços e demais ícones: criados para este projeto. Ícone do
+  WhatsApp: Simple Icons (CC0).
 - Fraunces e Manrope: SIL Open Font License 1.1, obtidas do Google Fonts e
   hospedadas localmente.
 - Mapa: Google Maps, incorporado.
 
 ## Pendências que dependem do cliente
 
-- **Logo oficial.** A marca da página é provisória. Com o logo, as cores e o
-  cabeçalho devem ser revistos (veja "Marca provisória").
+- **Logo em vetor (SVG, PDF ou AI)**, se existir: o PNG recebido é bom, mas o
+  vetor permitiria ícones e impressos mais nítidos.
 - **Fotos da loja, do setor de peixes e do banho e tosa, em alta resolução.**
   As recebidas são capturas de tela de posts. Uma foto de um aquário montado
   sob medida, na casa de um cliente, seria a melhor prova da especialidade.

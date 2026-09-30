@@ -43,7 +43,7 @@
       if (isOpen() && !event.target.closest('[data-header]')) setOpen(false);
     });
 
-    window.matchMedia('(min-width: 1140px)').addEventListener('change', function (event) {
+    window.matchMedia('(min-width: 1200px)').addEventListener('change', function (event) {
       if (event.matches) setOpen(false);
     });
   }
