@@ -32,6 +32,25 @@ materiais-de-origem/
 Só é preciso ter os originais para rodar `tools/optimize-images.py`, ou seja,
 para trocar ou reprocessar uma foto.
 
+## Repositório
+
+| Item | Valor |
+| --- | --- |
+| Endereço | `git@github.com:joabegalvao/vieira-fauna.git` |
+| Página | https://github.com/joabegalvao/vieira-fauna |
+| Visibilidade | pública (conferida em 30/09/2026) |
+| Branch | `main` |
+
+O repositório guarda só o que o site precisa para funcionar e ser mantido:
+`index.html`, `assets/`, `tools/`, `README.md` e `.gitignore`.
+
+```bash
+git clone git@github.com:joabegalvao/vieira-fauna.git
+```
+
+Um clone novo abre e publica o site normalmente. Só não roda o script de
+imagens, que depende da pasta `materiais-de-origem/`.
+
 ## Dados do cliente
 
 Recebidos em 30/09/2026.
