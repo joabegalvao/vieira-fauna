@@ -14,7 +14,7 @@ fontes do site, por outro script:
 """
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES = ROOT / "materiais-de-origem"
@@ -82,10 +82,29 @@ def build_avatars() -> None:
         print(f"{name}: {im.width}x{im.height}")
 
 
+# Azul do logo. O PNG recebido usa #004fd8, mais vivo que o azul da marca;
+# a pedido do cliente, o azul é ajustado para #252f7d, o mesmo da página.
+BLUE = (37, 47, 125)
+
+
+def recolor_blue(logo: Image.Image) -> Image.Image:
+    """Troca os pixels azuis do logo pela cor BLUE, mantendo a transparência
+    (e, com ela, a suavização das bordas). Rosa e dourado não são tocados."""
+    r, g, b, a = logo.split()
+    # azul: b alto, r e g baixos
+    mask_b = b.point(lambda v: 255 if v > 110 else 0)
+    mask_r = r.point(lambda v: 255 if v < 110 else 0)
+    mask_g = g.point(lambda v: 255 if v < 150 else 0)
+    is_blue = ImageChops.multiply(ImageChops.multiply(mask_b, mask_r), mask_g)
+    solid = Image.new("RGBA", logo.size, BLUE + (0,))
+    solid.putalpha(a)
+    return Image.composite(solid, logo, is_blue)
+
+
 def build_logo() -> None:
     """O logo veio em PNG de 2172x724 px, com fundo transparente. O script só
     recorta a margem vazia e gera as larguras usadas na página."""
-    logo = Image.open(LOGO_SRC).convert("RGBA")
+    logo = recolor_blue(Image.open(LOGO_SRC).convert("RGBA"))
     box = logo.getchannel("A").point(lambda v: 255 if v > 20 else 0).getbbox()
     margin = 8
     mark = logo.crop((
@@ -107,7 +126,7 @@ def build_logo() -> None:
     v.putalpha(alpha)
     v = v.crop(alpha.point(lambda a: 255 if a > 20 else 0).getbbox())
     for name, size in (("favicon-32", 32), ("apple-touch-icon", 180), ("icon-192", 192)):
-        tile = Image.new("RGBA", (512, 512), (245, 239, 228, 255))
+        tile = Image.new("RGBA", (512, 512), (245, 239, 228, 255))  # fundo claro da página
         scale = 400 / max(v.width, v.height)
         fitted = v.resize((round(v.width * scale), round(v.height * scale)), Image.LANCZOS)
         tile.alpha_composite(fitted, ((512 - fitted.width) // 2, (512 - fitted.height) // 2))

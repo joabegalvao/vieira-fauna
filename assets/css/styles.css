@@ -48,24 +48,24 @@
 
 :root {
   /* Cores extraídas do logo */
-  --blue: #004fd8;        /* "Vieira": botões, destaques dos títulos, rótulos */
+  --blue: #252f7d;        /* "Vieira": botões, destaques dos títulos, rótulos */
   --pink: #fc2c57;        /* "PET SHOP" e listras: só nos traços dos rótulos */
   --gold: #c79601;        /* "Fauna Shopping": botões da seção escura e números dos passos */
 
   /* Variações e neutros de apoio */
-  --deep: #08265c;        /* azul do logo escurecido: água funda, seções escuras */
-  --blue-700: #003db0;    /* hover dos botões */
-  --blue-100: #e4ecff;    /* azul bem claro: fundo dos ícones */
-  --sky: #cfe0ff;         /* azul claro: destaques sobre o escuro */
+  --deep: #141a4d;        /* azul do logo escurecido: água funda, seções escuras */
+  --blue-700: #1a2260;    /* hover dos botões */
+  --blue-100: #e7e9f6;    /* azul bem claro: fundo dos ícones */
+  --sky: #c9cff0;         /* azul claro: destaques sobre o escuro */
   --gold-300: #e0b22a;
   --gold-800: #7a5b00;    /* dourado escurecido: numeração sobre fundo claro */
   --sand: #f5efe4;        /* papel do guia: fundo claro */
   --white: #fffdf9;
   --line: #e1dccf;
-  --line-dark: #1b3a7a;
-  --ink: #171f2e;
-  --ink-soft: #4e586b;
-  --mist: #b9c8e6;        /* texto secundário sobre o escuro */
+  --line-dark: #2a3270;
+  --ink: #191c2e;
+  --ink-soft: #4f5468;
+  --mist: #b6bbdb;        /* texto secundário sobre o escuro */
   --whatsapp: #25d366;    /* verde oficial do WhatsApp */
 
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
@@ -321,7 +321,7 @@ button {
 }
 
 .btn--outline {
-  border-color: rgba(207, 224, 255, 0.45);
+  border-color: rgba(201, 207, 240, 0.45);
   color: var(--sky);
 }
 
@@ -876,7 +876,7 @@ button {
 .note {
   padding: 22px 24px;
   border-left: 3px solid var(--gold);
-  background: rgba(207, 224, 255, 0.08);
+  background: rgba(201, 207, 240, 0.08);
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 

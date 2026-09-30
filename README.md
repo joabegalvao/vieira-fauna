@@ -157,8 +157,15 @@ Observações:
 
 O logo chegou depois do início do projeto, em PNG de 2172 x 724 px com fundo
 transparente e bordas limpas: "Vieira" em azul, "PET SHOP" e duas listras em
-rosa, "Fauna Shopping" em dourado. O script só recorta a margem vazia e gera
-as larguras de 560 e 280 px. Como o logo é largo, no cabeçalho ele tem 58 px
+rosa, "Fauna Shopping" em dourado. O script recorta a margem vazia e gera as
+larguras de 560 e 280 px.
+
+**Azul ajustado.** O PNG recebido tem o azul em `#004FD8`, mais vivo que o
+azul da marca. A pedido do cliente, o script troca os pixels azuis por
+`#252F7D` (o mesmo azul da página), mantendo a transparência das bordas; rosa
+e dourado não são tocados. Para voltar ao azul do arquivo, mude `BLUE` em
+`tools/optimize-images.py` e rode o script. O original em
+`materiais-de-origem/logo/` continua intacto. Como o logo é largo, no cabeçalho ele tem 58 px
 de altura no desktop, 54 px no celular e 44 px em telas de até 359 px.
 
 Os ícones do site (favicon e ícone de atalho) usam só o "V" azul, recortado
@@ -224,16 +231,16 @@ O logo tem três cores vivas, uma por palavra.
 
 | Token | Cor | Origem |
 | --- | --- | --- |
-| `--blue` | `#004FD8` | "Vieira": botões, destaques dos títulos, rótulos, ícones |
+| `--blue` | `#252F7D` | "Vieira" (azul da marca, informado pelo cliente): botões, destaques dos títulos, rótulos, ícones |
 | `--pink` | `#FC2C57` | "PET SHOP" e as listras: só nas duas listras dos rótulos de seção |
 | `--gold` | `#C79601` | "Fauna Shopping": botão da seção escura, números dos passos, listras dos rótulos sobre o escuro |
-| `--deep` | `#08265C` | azul do logo escurecido: seção "Na água" e chamada final |
-| `--blue-700` | `#003DB0` | hover dos botões |
-| `--blue-100`, `--sky` | `#E4ECFF`, `#CFE0FF` | azul clareado: fundo dos ícones e destaques sobre o escuro |
+| `--deep` | `#141A4D` | azul da marca escurecido: seção "Na água", chamada final e títulos |
+| `--blue-700` | `#1A2260` | hover dos botões |
+| `--blue-100`, `--sky` | `#E7E9F6`, `#C9CFF0` | azul clareado: fundo dos ícones e destaques sobre o escuro |
 | `--gold-800` | `#7A5B00` | dourado escurecido: numeração "Fig." e do índice sobre fundo claro |
 | `--sand`, `--white` | `#F5EFE4`, `#FFFDF9` | papel do guia: fundos claros, alternados |
-| `--ink`, `--ink-soft` | `#171F2E`, `#4E586B` | textos sobre fundo claro |
-| `--mist` | `#B9C8E6` | texto secundário sobre o escuro |
+| `--ink`, `--ink-soft` | `#191C2E`, `#4F5468` | textos sobre fundo claro |
+| `--mist` | `#B6BBDB` | texto secundário sobre o escuro |
 | `--whatsapp` | `#25D366` | verde oficial do WhatsApp, usado só no botão flutuante |
 
 Como as cores foram usadas: o azul é a cor de ação e de destaque; o dourado
@@ -306,6 +313,7 @@ verificado se o número responde no WhatsApp.
 | --- | --- |
 | Versão inicial da página, com marca provisória | todos |
 | Logo recebido: paleta refeita a partir dele, logo no cabeçalho e no rodapé, ícones a partir do "V" | `index.html`, `styles.css`, `tools/`, `assets/img` |
+| Azul da marca definido pelo cliente como `#252F7D`: paleta e azul do logo ajustados | `styles.css`, `tools/optimize-images.py`, `assets/img` |
 
 ## Créditos e licenças
 

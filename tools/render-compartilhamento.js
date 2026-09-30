@@ -23,11 +23,11 @@ const photo = fs.readdirSync(path.join(root, 'assets/img')).filter((f) => /^spit
 const card = `<!doctype html><html><head><meta charset="utf-8"><style>
 ${fontFace('Fraunces', 'fraunces-italic-latin.woff2', 'italic')}
 ${fontFace('Manrope', 'manrope-normal-latin.woff2', 'normal')}
-body { margin: 0; width: 1200px; height: 630px; display: grid; grid-template-columns: 620px 580px; background: #f5efe4; color: #171f2e; font-family: Manrope, sans-serif; }
+body { margin: 0; width: 1200px; height: 630px; display: grid; grid-template-columns: 620px 580px; background: #f5efe4; color: #191c2e; font-family: Manrope, sans-serif; }
 .left { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 60px; }
 .logo { width: 460px; height: auto; }
-.tag { margin-top: 40px; font-family: Fraunces, serif; font-style: italic; font-size: 30px; line-height: 1.3; color: #08265c; }
-.sub { margin-top: 14px; font-size: 17px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #004fd8; }
+.tag { margin-top: 40px; font-family: Fraunces, serif; font-style: italic; font-size: 30px; line-height: 1.3; color: #141a4d; }
+.sub { margin-top: 14px; font-size: 17px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #252f7d; }
 .photo { width: 580px; height: 630px; object-fit: cover; object-position: 50% 40%; display: block; }
 </style></head><body>
 <div class="left">
